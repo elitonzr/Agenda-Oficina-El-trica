@@ -131,7 +131,7 @@ function renderCalendar(events) {
       const eDiv = document.createElement("div");
       eDiv.className = "event";
       eDiv.style.backgroundColor = ev.corfundo || "var(--highlight)";
-      eDiv.style.color = ev.cortexto || "white";
+      eDiv.style.color = ev.cortexto || "black";
       eDiv.innerHTML = `<strong>${ev.titulo}</strong>${ev.hora ? `<br><small>${ev.hora}</small>` : ""}`;
       eDiv.addEventListener("click", () => openModal(ev));
       cell.appendChild(eDiv);
