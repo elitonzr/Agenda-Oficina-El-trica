@@ -117,6 +117,7 @@ function renderCalendar(events) {
       eDiv.innerHTML = `<strong>${ev.tipo}</strong>${ev.tipo ? `<br><small>${ev.titulo}</small>` : ""}`;
       eDiv.addEventListener("click", () => openModal(ev));
       cell.appendChild(eDiv);
+      console.log(`titulo: ${ev.titulo} backgroundColor: ${ev.corfundo}`)
     });
 
     grid.appendChild(cell);

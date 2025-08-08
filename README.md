@@ -1,7 +1,8 @@
 
-# ⚡ Elétrica - Escala sobre aviso
+# ⚡Agenda Oficina Elétrica
 
-Sistema leve e dinâmico para visualização de escalas de plantão da equipe elétrica, com suporte a múltiplos eventos por dia, tema claro/escuro e leitura automática de eventos a partir de uma planilha do Google Sheets.
+Agenda leve e dinâmica para visualização de eventos da equipe elétrica como escalas de plantão, reuniões, LMs e etc...
+Com suporte a múltiplos eventos por dia, tema claro/escuro e leitura automática de eventos a partir de uma planilha do Google Sheets.
 
 ---
 
@@ -42,7 +43,7 @@ Sistema leve e dinâmico para visualização de escalas de plantão da equipe el
 | `corFundo`   | ⭕           | `#FFD700`            | Cor de fundo personalizada do evento          |
 | `corTexto`   | ⭕           | `#000000`            | Cor do texto personalizada do evento          |
 
-🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`xxxxazul` de fundo e `xxxxbranco` no texto).
+🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`branco` de fundo e `preto` no texto).
 
 ---
 
@@ -138,4 +139,4 @@ Você pode hospedar este projeto gratuitamente em:
 
 > Eliton Roberto Monteiro  
 > 📅 Agosto 2025  
-> ⚡ Para uso da equipe elétrica – escala de sobreaviso
+> ⚡ Para uso da equipe elétrica
