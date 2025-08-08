@@ -1,10 +1,10 @@
-Elétrica - Escala sobre aviso/
-├── eventos/
-│ ├── janeiro.json
-│ ├── fevereiro.json
-│ └── ... (um arquivo por mês)
+Agenda-Oficina-Elétrica/
+├── src/
+│ ├── script.js
+├── css/
+│ ├── style.css
+├── img/
+│ ├── logo.png
 ├── index.html
-├── script.js
-├── style.css
 ├── logo.png
 └── README.md

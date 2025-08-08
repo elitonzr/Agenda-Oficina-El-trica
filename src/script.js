@@ -114,7 +114,7 @@ function renderCalendar(events) {
       eDiv.className = "event";
       eDiv.style.backgroundColor = ev.corfundo || "var(--highlight)";
       eDiv.style.color = ev.cortexto || "black";
-      eDiv.innerHTML = `<strong>${ev.titulo}</strong>${ev.hora ? `<br><small>${ev.hora}</small>` : ""}`;
+      eDiv.innerHTML = `<strong>${ev.titulo}</strong>${ev.tipo ? `<br><small>${ev.tipo}</small>` : ""}`;
       eDiv.addEventListener("click", () => openModal(ev));
       cell.appendChild(eDiv);
     });
