@@ -34,14 +34,15 @@ Sistema leve e dinâmico para visualização de escalas de plantão da equipe el
 | Campo        | Obrigatório | Exemplo              | Descrição                                     |
 |--------------|-------------|----------------------|-----------------------------------------------|
 | `data`       | ✅           | `15/08/2025`         | Data do evento no formato `DD/MM/AAAA`        |
-| `titulo`     | ✅           | `Plantão João`       | Título do evento (exibido no calendário)      |
 | `hora`       | ⭕           | `08:00 - 17:00`      | Faixa de horário opcional                     |
+| `tipo`       | ✅           | `Exemplos`           | Tipo de Evento                                |
+| `titulo`     | ✅           | `Plantão João`       | Título do evento (exibido no calendário)      |
 | `responsavel`| ⭕           | `João da Luz`        | Nome da pessoa responsável                    |
 | `obs`        | ⭕           | `Cobertura setor A`  | Observações complementares                    |
 | `corFundo`   | ⭕           | `#FFD700`            | Cor de fundo personalizada do evento          |
 | `corTexto`   | ⭕           | `#000000`            | Cor do texto personalizada do evento          |
 
-🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`azul` de fundo e `branco` no texto).
+🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`xxxxazul` de fundo e `xxxxbranco` no texto).
 
 ---
 
@@ -49,21 +50,30 @@ Sistema leve e dinâmico para visualização de escalas de plantão da equipe el
 
 ### ✅ Exemplo de conteúdo da planilha
 
-| data       | titulo           | hora         | responsavel | obs                 | corFundo   | corTexto  | tipo        |
+|data|hora|tipo|titulo|responsavel|obs|corFundo|corTexto|
 |------------|------------------|--------------|-------------|---------------------|------------|-----------|----------   |
-| 15/08/2025 | Plantão João     | 08:00-18:00  | João        | Cobertura Setor A   | #FFD700  | #000000 | plantao     |
-| 22/08/2025 | Vistoria Técnica | 09:00-17:00  | Ana         |                     | #00BFFF  | #FFFFFF | manutencao  |
+|01/08/2025|07:00-09:00|Exemplos|Manutenção Geral|Eliton|Cobertura Setor A|#000000|#FFFFFF|
+|03/08/2025|07:00-09:00|Exemplos|Inspeção Elétrica|Paula|Evento de teste|#1E90FF||
+|05/08/2025|07:00-09:00|Exemplos|Ajuste de Painel|Ricardo|Evento de teste|#f46524|#FFFFFF|
+|08/08/2025|09:00-17:01|Exemplos|Revisão de Cabos|João|Evento de teste|#FF4500|#FFFFFF|
+|12/08/2025|09:00-17:00|Exemplos|Vistoria Técnica|Ana|Evento de teste|#FFD700||
+|15/08/2025|08:00-18:00|Exemplos|Plantão Emergencial|Marcos|Cobertura Setor A|#FF69B4|#FFD700|
+|18/08/2025|09:00-17:01|Exemplos|Teste de Gerador|Felipe|Evento de teste|#8A2BE2|#FFFFFF|
+|21/08/2025|08:00-18:01|Exemplos|Auditoria Interna|Camila|Cobertura Setor A|#00CED1||
+|29/08/2025|09:00-17:01|Exemplos|Limpeza Técnica|Roberto|Evento de teste|#FF8C00|#FFFFFF|
+|30/08/2025|08:00-18:01|Exemplos|Atualização de Rede|Bruna|Cobertura Setor A|#CC0000|#FFFFFF|
 
 ### ✅ **Regras obrigatórias:**
 
 1. **Cabeçalhos devem estar em minúsculas** e **sem acentos**:
 
-    - `data`, `titulo`, `hora`, `responsavel`, `obs`, `corfundo`, `cortexto`, `tipo`
+    - `data`, `hora`, `tipo`, `titulo`, `responsavel`, `obs`, `corfundo`, `cortexto`
 
 2. **Campos obrigatórios:**
 
     - `data` (formato: `DD/MM/AAAA`)
     - `titulo` (nome do evento)
+    - `tipo` (tipo do evento)
 
 3. O script faz o **mapeamento automático pelas colunas**, então:
 
@@ -83,7 +93,7 @@ Sistema leve e dinâmico para visualização de escalas de plantão da equipe el
 
 ## ℹ️ Observações importantes
 
-- Os nomes das colunas devem estar **em minúsculas**, sem acentos: `data`, `titulo`, `hora`, etc.  
+- Os nomes das colunas devem estar **em minúsculas**, sem acentos: `data`, `hora`, `tipo`, etc.  
 - O campo `data` deve conter **ano completo** no formato `DD/MM/AAAA`.  
 - Todos os eventos devem estar no mês e ano visíveis no calendário atual para serem exibidos.
 
