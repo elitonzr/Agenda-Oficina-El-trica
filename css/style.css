@@ -3,13 +3,22 @@
   --text-light: #000000;
   --bg-dark: #121212;
   --text-dark: #ffffff;
-  --highlight: #ffffff;  /* cinza escuro padrão para eventos */
-  --title-light: #222222;
-  /* cor do título no tema claro */
-  --title-dark: #eeeeee;
-  /* cor do título no tema escuro */
+  --highlight: #ffffff;
+  /* cor padrão para eventos sem cor definida */
+  --title-light: #000000;
+  --title-dark: #ffffff;
+  --today-border: #ff9800;
+  --today-bg: rgba(255, 152, 0, 0.15);
 }
 
+/* Reset box-sizing global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Tema e estrutura geral */
 body {
   margin: 0;
   padding: 0;
@@ -17,29 +26,18 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Tema claro */
 body.light {
   background-color: var(--bg-light);
   color: var(--text-light);
 }
 
-body.light h1 {
-  color: var(--title-light);
-}
-
-/* Tema escuro */
 body.dark {
   background-color: var(--bg-dark);
   color: var(--text-dark);
-}
-
-body.dark h1 {
-  color: var(--title-dark);
 }
 
 .theme-toggle-btn {
@@ -60,69 +58,61 @@ body.dark h1 {
 }
 
 h1 {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 1.8rem;
   text-align: center;
 }
 
-.filter-container {
-  margin: 10px auto;
-  text-align: center;
-}
-
-.filter-container label {
-  margin-right: 8px;
-  font-weight: bold;
-}
-
-#tipoFiltro {
-  padding: 4px 10px;
-  font-size: 1rem;
-  border-radius: 5px;
-}
-
+/* Navegação de mês */
 .month-navigation {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .month-navigation button {
-  font-size: 0.8rem;
-  padding: 2px 12px;
+  font-size: 1.2rem;
+  padding: 6px 12px;
   cursor: pointer;
 }
 
+/* Filtro por tipo */
+.filter-container {
+  margin-bottom: 10px;
+}
+
+.filter-container select {
+  padding: 5px;
+  font-size: 1rem;
+}
+
+/* Calendário */
 .calendar-container {
   width: 90%;
   max-width: 800px;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   background-color: inherit;
-}
-
-.event {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.event:last-child {
-  border-bottom: none;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .calendar-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
-  max-width: 800px;
+  max-width: 755px;
   margin-bottom: 8px;
   text-align: center;
   font-weight: bold;
   font-size: 0.95rem;
   color: var(--highlight);
+  gap: 8px;
+  /* Mesmo gap da calendar-grid */
 }
+
 
 body.light .calendar-header {
   color: var(--title-light);
@@ -136,15 +126,31 @@ body.dark .calendar-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
+  width: 100%;
+  max-width: 755px;
   text-align: left;
 }
 
+.calendar-header>div {
+  text-align: center;
+  padding: 6px;
+  user-select: none;
+  font-weight: bold;
+  font-size: 1rem;
+  color: inherit;
+}
+
 .day-cell {
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 10px;
-  border-radius: 8px;
   min-height: 80px;
-  position: relative;
+  min-width: 80px;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
 body.dark .day-cell {
@@ -153,88 +159,89 @@ body.dark .day-cell {
 
 .day-number {
   font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
 }
 
+/* Destaque para o dia atual */
+.day-cell.today {
+  border: 2px solid var(--today-border);
+  background-color: var(--today-bg);
+  border-radius: 8px;
+}
+
+/* Eventos */
 .event {
-  background-color: var(--highlight);
-  color: white;
-  padding: 4px 6px;
-  margin: 3px 0;
+  width: 100%;
+  padding: 4px;
   border-radius: 4px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 .event small {
   display: block;
   font-size: 0.7rem;
+  opacity: 0.8;
   color: inherit;
 }
 
-/* ===== MODAL ===== */
+/* Modal */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: none;
-  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
   justify-content: center;
-  z-index: 999;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal {
-  background: var(--bg-light);
-  color: var(--text-light);
+  background-color: inherit;
   padding: 20px;
-  border-radius: 12px;
-  max-width: 400px;
+  border-radius: 8px;
+  max-width: 500px;
   width: 90%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-body.dark .modal {
-  background: var(--bg-dark);
-  color: var(--text-dark);
+  box-sizing: border-box;
 }
 
 .modal h3 {
   margin-top: 0;
+  margin-bottom: 10px;
+  padding: 6px;
+  border-radius: 4px;
+  text-align: center;
+  color: #fff;
+  /* Será sobrescrito pelo JS para herdar do evento */
 }
 
+.modal p,
 .modal small {
-  display: block;
-  margin-top: 8px;
-  font-size: 0.85rem;
+  margin: 5px 0;
 }
 
-.modal .close-btn {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  background: transparent;
+.modal-close-btn {
+  background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   cursor: pointer;
-  color: inherit;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 
-/* ===== RESPONSIVIDADE ===== */
+/* Responsividade */
 @media (max-width: 768px) {
-  .calendar-header {
-    font-size: 0.8rem;
-  }
-
-  .calendar-grid {
-    gap: 4px;
+  .calendar-container {
+    padding: 10px;
   }
 
   .day-cell {
-    padding: 6px;
     min-height: 60px;
+    padding: 4px;
   }
 
   .day-number {
@@ -242,28 +249,11 @@ body.dark .modal {
   }
 
   .event {
-    font-size: 0.7rem;
-    padding: 3px 4px;
-  }
-
-  .event small {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
   }
 }
 
 @media (max-width: 500px) {
-  body {
-    padding: 5px;
-  }
-
-  .calendar-container {
-    padding: 10px;
-  }
-
-  .calendar-header {
-    font-size: 0.7rem;
-  }
-
   .month-navigation {
     flex-wrap: wrap;
     gap: 5px;
@@ -273,9 +263,16 @@ body.dark .modal {
     font-size: 1rem;
   }
 
-  .logo {
-    max-width: 100px;
-    margin-top: 20px;
+  .calendar-header {
+    font-size: 0.7rem;
+  }
+
+  .event {
+    font-size: 0.6rem;
+  }
+
+  .event small {
+    font-size: 0.55rem;
   }
 
   .modal {
@@ -284,10 +281,6 @@ body.dark .modal {
   }
 
   .modal h3 {
-    font-size: 1.1rem;
-  }
-
-  .modal small, .modal p {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 }

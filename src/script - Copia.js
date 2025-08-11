@@ -1,8 +1,11 @@
+// script.js atualizado com suporte ao filtro por tipo
+
 const calendar = document.getElementById("calendar");
 const monthTitle = document.getElementById("monthTitle");
 const prevBtn = document.getElementById("prevMonth");
 const nextBtn = document.getElementById("nextMonth");
 const themeToggle = document.getElementById("themeToggle");
+const tipoSelect = document.getElementById("tipoFiltro");
 
 const monthNames = [
   "janeiro", "fevereiro", "março", "abril", "maio", "junho",
@@ -10,6 +13,7 @@ const monthNames = [
 ];
 
 let currentDate = new Date();
+let allEvents = [];
 
 // === TEMA ===
 function applyTheme(theme) {
@@ -29,59 +33,46 @@ themeToggle.addEventListener("click", () => {
   applyTheme(saved);
 })();
 
-// === NAVEGAÇÃO ENTRE MESES ===
+// === NAVEGAÇÃO ===
 prevBtn.addEventListener("click", () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
-  updateCalendar();
+  renderAll();
 });
 
 nextBtn.addEventListener("click", () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
-  updateCalendar();
+  renderAll();
 });
 
-// === LEITURA DA PLANILHA CSV ===
+tipoSelect.addEventListener("change", renderAll);
+
+// === PLANILHA CSV ===
 const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBpKp63xdD921Hs2xheVfVa1vhhbVya6RFC8IaC0mCli_kia3dHY1QQqpOwiy4f4Hznv4YkilhyYY/pub?gid=0&single=true&output=csv";
 
-async function fetchEventsFromSheet(url) {
-  const response = await fetch(url);
-  const text = await response.text();
-
+async function fetchEvents() {
+  const res = await fetch(csvUrl);
+  const text = await res.text();
   const lines = text.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-
-  const events = lines.slice(1).map(line => {
+  return lines.slice(1).map(line => {
     const values = line.split(',');
-    const event = {};
-    headers.forEach((key, i) => {
-      event[key] = values[i]?.trim();
-    });
-    return event;
+    const ev = {};
+    headers.forEach((h, i) => ev[h] = values[i]?.trim());
+    return ev;
   });
-
-  return events;
 }
 
-// === ATUALIZAR CALENDÁRIO ===
-function updateCalendar() {
+function renderAll() {
   const month = monthNames[currentDate.getMonth()];
   const year = currentDate.getFullYear();
   monthTitle.textContent = `${month[0].toUpperCase() + month.slice(1)} ${year}`;
+  renderWeekHeader();
 
-  calendar.innerHTML = "<p>Carregando...</p>";
-
-  fetchEventsFromSheet(csvUrl)
-    .then(events => {
-      renderWeekHeader();
-      renderCalendar(events);
-    })
-    .catch(() => {
-      renderWeekHeader();
-      renderCalendar([]);
-    });
+  const tipo = tipoSelect.value;
+  const filtered = tipo ? allEvents.filter(ev => ev.tipo === tipo) : allEvents;
+  renderCalendar(filtered);
 }
 
-// === CABEÇALHO DOS DIAS ===
 function renderWeekHeader() {
   const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   const header = document.createElement("div");
@@ -93,48 +84,40 @@ function renderWeekHeader() {
   });
 
   const oldHeader = document.querySelector(".calendar-header");
-  if (oldHeader) {
-    oldHeader.replaceWith(header);
-  } else {
-    calendar.before(header);
-  }
+  if (oldHeader) oldHeader.replaceWith(header);
+  else calendar.before(header);
 }
 
-// === RENDERIZAR EVENTOS ===
 function renderCalendar(events) {
   calendar.innerHTML = "";
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const firstDay = new Date(year, month, 1).getDay();
-  const totalDays = new Date(year, month + 1, 0).getDate();
-
+  const y = currentDate.getFullYear(), m = currentDate.getMonth();
+  const firstDay = new Date(y, m, 1).getDay();
+  const totalDays = new Date(y, m + 1, 0).getDate();
   const grid = document.createElement("div");
   grid.className = "calendar-grid";
 
-  for (let i = 0; i < firstDay; i++) {
-    grid.appendChild(document.createElement("div"));
-  }
+  for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement("div"));
 
-  for (let day = 1; day <= totalDays; day++) {
+  for (let d = 1; d <= totalDays; d++) {
     const cell = document.createElement("div");
     cell.className = "day-cell";
-
-    const dateStr = `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`;
+    const dateStr = `${String(d).padStart(2, '0')}/${String(m + 1).padStart(2, '0')}/${y}`;
 
     const dayNumber = document.createElement("div");
     dayNumber.className = "day-number";
-    dayNumber.textContent = day;
+    dayNumber.textContent = d;
     cell.appendChild(dayNumber);
 
-    const todaysEvents = events.filter(ev => ev.data === dateStr);
-    todaysEvents.forEach(ev => {
+    const dayEvents = events.filter(ev => ev.data === dateStr);
+    dayEvents.forEach(ev => {
       const eDiv = document.createElement("div");
       eDiv.className = "event";
       eDiv.style.backgroundColor = ev.corfundo || "var(--highlight)";
       eDiv.style.color = ev.cortexto || "black";
-      eDiv.innerHTML = `<strong>${ev.titulo}</strong>${ev.hora ? `<br><small>${ev.hora}</small>` : ""}`;
+      eDiv.innerHTML = `<strong>${ev.tipo}</strong>${ev.tipo ? `<br><small>${ev.titulo}</small>` : ""}`;
       eDiv.addEventListener("click", () => openModal(ev));
       cell.appendChild(eDiv);
+      console.log(`titulo: ${ev.titulo} backgroundColor: ${ev.corfundo}`)
     });
 
     grid.appendChild(cell);
@@ -171,4 +154,10 @@ modalOverlay.addEventListener("click", (e) => {
 });
 
 // === INICIALIZAÇÃO ===
-updateCalendar();
+fetchEvents().then(events => {
+  allEvents = events;
+  const tiposUnicos = [...new Set(events.map(e => e.tipo).filter(Boolean))];
+  tipoSelect.innerHTML = '<option value="">Todos</option>' +
+    tiposUnicos.map(t => `<option value="${t}">${t}</option>`).join("");
+  renderAll();
+});

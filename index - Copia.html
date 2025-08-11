@@ -28,17 +28,19 @@
       <button id="nextMonth" aria-label="Próximo mês">&gt;</button>
     </div>
 
-    <div class="calendar-container" id="calendar" aria-live="polite"></div>
+    <div class="calendar-container" id="calendar" aria-live="polite">
+      <!-- Eventos serão carregados dinamicamente -->
+    </div>
 
     <!-- Modal -->
-    <div id="modalOverlay" class="modal-overlay">
-      <div class="modal">
-        <h3 id="modalTipo"></h3>
-        <p id="modalTitle"></p>
-        <p id="modalResponsavel"></p>
-        <p id="modalDate"></p>
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="eventModal">
+        <button class="close-btn" id="closeModal" aria-label="Fechar">×</button>
+        <h3 id="modalTitle"></h3>
+        <small id="modalDate"></small>
         <p id="modalDetails"></p>
-        <p id="modalObs"></p>
+        <small id="modalResponsavel"></small>
+        <small id="modalObs"></small>
       </div>
     </div>
 
