@@ -6,5 +6,5 @@ Agenda-Oficina-Elétrica/
 ├── img/
 │ ├── logo.png
 ├── index.html
-├── logo.png
+├── favicon.ico
 └── README.md
