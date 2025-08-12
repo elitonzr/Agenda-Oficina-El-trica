@@ -1,10 +1,10 @@
-Agenda-Oficina-Elétrica/
+Agenda-Oficina-Eletrica/
 ├── src/
 │ ├── script.js
 ├── css/
 │ ├── style.css
 ├── img/
 │ ├── logo.png
+│ ├── favicon.ico
 ├── index.html
-├── favicon.ico
 └── README.md
