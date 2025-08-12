@@ -3,7 +3,9 @@
   --text-light: #000000;
   --bg-dark: #121212;
   --text-dark: #ffffff;
-  --highlight: #ffffff;
+  --text-dom: #e6353bff;
+  --text-week: #5e5958ff;
+  --highlight: #5e5958ff;
   /* cor padrão para eventos sem cor definida */
   --title-light: #000000;
   --title-dark: #ffffff;
@@ -63,34 +65,45 @@ h1 {
   text-align: center;
 }
 
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0px 0px 50px 0px;
+}
+
+
 /* Navegação de mês */
 .month-navigation {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 100px;
+  margin: 5px 0;
 }
 
 .month-navigation button {
-  font-size: 1.2rem;
-  padding: 6px 12px;
+  font-size: 1rem;
+  padding: 4px 8px;
   cursor: pointer;
 }
 
 /* Filtro por tipo */
 .filter-container {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .filter-container select {
-  padding: 5px;
   font-size: 1rem;
+  padding: 4px;
+  cursor: pointer;
 }
 
 /* Calendário */
 .calendar-container {
   width: 90%;
-  max-width: 800px;
+  max-width: 755px;
   border-radius: 12px;
   padding: 20px;
   background-color: inherit;
@@ -140,6 +153,12 @@ body.dark .calendar-header {
   color: inherit;
 }
 
+.day-header {
+  text-align: center;
+  min-height: 20px;
+  min-width: 80px;
+}
+
 .day-cell {
   min-height: 80px;
   min-width: 80px;
@@ -165,9 +184,13 @@ body.dark .day-cell {
 
 /* Destaque para o dia atual */
 .day-cell.today {
-  border: 2px solid var(--today-border);
+  border: 3px solid var(--today-border);
   background-color: var(--today-bg);
   border-radius: 8px;
+}
+
+.day-cell.today .day-number{
+  color: var(--text-week);
 }
 
 /* Eventos */
@@ -207,6 +230,15 @@ body.dark .day-cell {
   width: 90%;
   box-sizing: border-box;
 }
+
+body.light .modal-overlay {
+  background-color: rgba(207, 207, 207, 0.829);
+}
+
+body.dark .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 
 .modal h3 {
   margin-top: 0;

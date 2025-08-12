@@ -106,6 +106,7 @@ function renderCalendar(events) {
     const dayHeader = document.createElement("div");
     dayHeader.className = "day-header";
     dayHeader.textContent = day;
+    dayHeader.style.color = dayHeader.textContent == "Dom" ? "var(--text-dom)" : "inherit";
     header.appendChild(dayHeader);
   });
   calendar.appendChild(header);
@@ -175,7 +176,7 @@ const modalObs = document.getElementById("modalObs");
 function openModal(ev) {
   modalTipo.textContent = ev.tipo || "Sem Tipo";
   modalTipo.style.backgroundColor = ev.corfundo || "var(--highlight)";
-  modalTipo.style.color = ev.cortexto || "white";
+  modalTipo.style.color = ev.cortexto || "var(--text-light)";
   modalTitle.textContent = ev.titulo ? `Evento: ${ev.titulo}` : "";
   modalResponsavel.textContent = ev.responsavel
     ? `Responsável: ${ev.responsavel}`
