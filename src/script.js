@@ -93,7 +93,7 @@ function renderCalendar(events) {
   calendar.innerHTML = "";
 
   const y = currentDate.getFullYear(),
-        m = currentDate.getMonth();
+    m = currentDate.getMonth();
   const firstDay = new Date(y, m, 1).getDay();
   const totalDays = new Date(y, m + 1, 0).getDate();
   const lastDay = new Date(y, m, totalDays).getDay();
@@ -101,13 +101,16 @@ function renderCalendar(events) {
   // Cabeçalho com dias da semana
   const header = document.createElement("div");
   header.className = "calendar-header";
+  const fimDeSemana = ["Sáb", "Dom"];
   const daysOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-  daysOfWeek.forEach(day => {
+  daysOfWeek.forEach((day) => {
     const dayHeader = document.createElement("div");
     dayHeader.className = "day-header";
     dayHeader.textContent = day;
-    dayHeader.style.color = dayHeader.textContent == "Dom" ? "var(--text-dom)" : "inherit";
     header.appendChild(dayHeader);
+    dayHeader.style.color = fimDeSemana.includes(dayHeader.textContent)
+      ? "var(--text-weekend)"
+      : "inherit";
   });
   calendar.appendChild(header);
 
@@ -162,7 +165,6 @@ function renderCalendar(events) {
 
   calendar.appendChild(grid);
 }
-
 
 // === MODAL ===
 const modalOverlay = document.getElementById("modalOverlay");

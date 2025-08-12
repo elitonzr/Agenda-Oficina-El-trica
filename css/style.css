@@ -3,7 +3,7 @@
   --text-light: #000000;
   --bg-dark: #121212;
   --text-dark: #ffffff;
-  --text-dom: #e6353bff;
+  --text-weekend: #e6353bff;
   --text-week: #5e5958ff;
   --highlight: #5e5958ff;
   /* cor padrão para eventos sem cor definida */
@@ -54,7 +54,7 @@ body.dark {
 }
 
 .logo {
-  margin-top: 40px;
+  margin-top: 20px;
   max-width: 150px;
   height: auto;
 }
@@ -73,32 +73,93 @@ h1 {
   margin: 0px 0px 50px 0px;
 }
 
-
-/* Navegação de mês */
-.month-navigation {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 100px;
-  margin: 5px 0;
-}
-
-.month-navigation button {
-  font-size: 1rem;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
 /* Filtro por tipo */
 .filter-container {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Espaço entre label e select */
+  margin: 1rem 0;
+  flex-wrap: wrap;
+  /* Permite quebrar linha em telas pequenas */
+}
+
+.filter-container label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: inherit;
 }
 
 .filter-container select {
+  padding: 0.4rem 0.8rem;
   font-size: 1rem;
-  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  min-width: 150px;
+  /* Largura mínima para boa legibilidade */
+  transition: border-color 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
+
+body.dark .filter-container select {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-color: #555;
+  /* se quiser ajustar */
+}
+
+.filter-container select:focus {
+  border-color: #007BFF;
+  /* Azul claro ao focar */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+/* Navegação de mês */
+.month-navigation {
+  position: relative;
+  /* Para posicionamento absoluto do título */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  /* Espaço interno nas laterais */
+  height: 50px;
+  /* Altura fixa opcional */
+
+
+}
+
+.month-navigation button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+button:hover,
+button:focus {
+  opacity: 0.85;
+}
+
+.event:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+body.dark .event:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.month-navigation h2 {
+  left: 50%;
+  width: 250px;
+  text-align: center;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
 
 /* Calendário */
 .calendar-container {
@@ -189,7 +250,7 @@ body.dark .day-cell {
   border-radius: 8px;
 }
 
-.day-cell.today .day-number{
+.day-cell.today .day-number {
   color: var(--text-week);
 }
 
@@ -291,7 +352,12 @@ body.dark .modal-overlay {
     gap: 5px;
   }
 
+  .month-navigation button {
+    font-size: 0.8rem;
+  }
+
   .month-navigation h2 {
+    width: 150px;
     font-size: 1rem;
   }
 

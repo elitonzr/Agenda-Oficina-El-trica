@@ -16,17 +16,17 @@
       <img src="./img/logo.png" alt="Logo da equipe elétrica" class="logo" />
     </div>
 
+    <div class="filter-container">
+      <label for="tipoFiltro">Filtrar:</label>
+      <select id="tipoFiltro">
+        <option value="">Todos</option>
+        <!-- Opções serão preenchidas automaticamente pelo JS -->
+      </select>
+    </div>
     <div class="month-navigation">
-      <button id="prevMonth" aria-label="Mês anterior">&lt;</button>
+      <button id="prevMonth" aria-label="Mês anterior">Anterior</button>
       <h2 id="monthTitle">Mês</h2>
-      <button id="nextMonth" aria-label="Próximo mês">&gt;</button>
-      <div class="filter-container">
-        <label for="tipoFiltro">Filtrar:</label>
-        <select id="tipoFiltro">
-          <option value="">Todos</option>
-          <!-- Opções serão preenchidas automaticamente pelo JS -->
-        </select>
-      </div>
+      <button id="nextMonth" aria-label="Próximo mês">Próximo</button>
     </div>
 
     <div class="calendar-container" id="calendar" aria-live="polite"></div>

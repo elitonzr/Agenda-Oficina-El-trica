@@ -5,6 +5,9 @@ Agenda leve e dinâmica para visualização de eventos da equipe elétrica como 
 Com suporte a múltiplos eventos por dia, tema claro/escuro e leitura automática de eventos a partir de uma planilha do Google Sheets.
 
 ---
+![print screen](./img/print%20screen.png)
+
+---
 
 ## 🧠 Funcionalidades
 
@@ -43,7 +46,7 @@ Com suporte a múltiplos eventos por dia, tema claro/escuro e leitura automátic
 | `corFundo`   | ⭕           | `#FFD700`            | Cor de fundo personalizada do evento          |
 | `corTexto`   | ⭕           | `#000000`            | Cor do texto personalizada do evento          |
 
-🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`branco` de fundo e `preto` no texto).
+🔁 Campos opcionais não preenchidos são omitidos no modal ou recebem cores padrão (`cinza` de fundo e `preto` no texto).
 
 ---
 
