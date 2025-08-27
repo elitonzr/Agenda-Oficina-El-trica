@@ -58,19 +58,70 @@ if (tipoSelect) {
   tipoSelect.addEventListener("change", renderAll);
 }
 
-// === PLANILHA CSV ===
-const csvUrl =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBpKp63xdD921Hs2xheVfVa1vhhbVya6RFC8IaC0mCli_kia3dHY1QQqpOwiy4f4Hznv4YkilhyYY/pub?gid=0&single=true&output=csv";
+const csvUrls = [
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBpKp63xdD921Hs2xheVfVa1vhhbVya6RFC8IaC0mCli_kia3dHY1QQqpOwiy4f4Hznv4YkilhyYY/pub?gid=0&single=true&output=csv", // Primeiro arquivo local
+  "./csv/Infibra - Agenda Oficina Elétrica - Feriados.csv", // Segundo arquivo local
+];
+
+const fallbackCsv = "./csv/Infibra - Agenda Oficina Elétrica - Agenda.csv"; // Terceiro arquivo, só se o google sheets falhar.
 
 async function fetchEvents() {
-  const res = await fetch(csvUrl);
-  const text = await res.text();
+  const allEvents = [];
+
+  for (let i = 0; i < csvUrls.length; i++) {
+    const url = csvUrls[i];
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Erro ao acessar ${url}`);
+      const text = await res.text();
+      const events = parseCSV(text);
+      allEvents.push(...events);
+      console.log(`✔ CSV carregado: ${url}`);
+    } catch (error) {
+      console.warn(`⚠ Falha ao carregar ${url}:`, error.message);
+
+      // Se for o primeiro arquivo e falhar, tenta o fallback
+      if (i === 0) {
+        try {
+          const fallbackRes = await fetch(fallbackCsv);
+          if (!fallbackRes.ok)
+            throw new Error(`Erro ao acessar ${fallbackCsv}`);
+          const fallbackText = await fallbackRes.text();
+          const fallbackEvents = parseCSV(fallbackText);
+          allEvents.push(...fallbackEvents);
+          console.log(`✔ CSV de emergência carregado: ${fallbackCsv}`);
+        } catch (fallbackError) {
+          console.error(
+            `❌ Falha ao carregar CSV de emergência:`,
+            fallbackError.message
+          );
+        }
+      }
+    }
+  }
+  console.log(`⚡@elitonz`);
+  return allEvents;
+}
+
+function parseCSV(text) {
   const lines = text.trim().split("\n");
   const headers = lines[0].split(",").map((h) => h.trim().toLowerCase());
+  const currentYear = new Date().getFullYear();
   return lines.slice(1).map((line) => {
     const values = line.split(",");
     const ev = {};
     headers.forEach((h, i) => (ev[h] = values[i]?.trim()));
+
+    // Se for a coluna 'data' e o tipo for 'Feriado', atualiza o ano
+    if (
+      ev.tipo?.toLowerCase() === "feriado" &&
+      ev.data?.match(/^\d{2}\/\d{2}\/\d{4}$/)
+    ) {
+      const [day, month] = ev.data.split("/");
+      ev.data = `${day}/${month}/${currentYear}`;
+      // console.log(ev);
+    }
+
     return ev;
   });
 }
@@ -143,6 +194,7 @@ function renderCalendar(events) {
     cell.appendChild(dayNumber);
 
     const dayEvents = events.filter((ev) => ev.data === dateStr);
+
     dayEvents.forEach((ev) => {
       const eDiv = document.createElement("div");
       eDiv.className = "event";
